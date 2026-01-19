@@ -12,6 +12,10 @@ A Flutter package that allows you to create custom map markers from any Flutter 
 - 📐 **Adjustable quality** - Control the resolution of generated markers
 - 🎯 **Simple API** - Singleton pattern for easy access throughout your app
 
+## Screenshot
+
+<img src="https://raw.githubusercontent.com/rudoapps/hybrid-hub-vault/main/flutter/images/hybrid-map-marker/simulator_screenshot_0C72C0D1-D1F5-4A51-BBC1-3BF25EA64024.png" width="300" alt="Example Screenshot" />
+
 ## Getting started
 
 ### Prerequisites

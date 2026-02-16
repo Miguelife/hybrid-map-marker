@@ -1,3 +1,6 @@
+## 2.0.1
+- Updated readme.
+
 ## 2.0.0
 - **Breaking:** Created `HybridMapMarker` interface and `HybridMapMarkerImpl` implementation.
 - Added `cacheImage` and `cacheNetworkImage` methods for pre-caching asset and network images.

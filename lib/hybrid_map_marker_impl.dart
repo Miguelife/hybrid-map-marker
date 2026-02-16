@@ -47,7 +47,10 @@ class HybridMapMarkerImpl implements HybridMapMarker {
   Future<void> cacheSvg({required String path}) async {
     final picture = SvgPicture.asset(path);
     final loader = picture.bytesLoader as SvgLoader;
-    await svg.cache.putIfAbsent(loader.cacheKey(null), () => loader.loadBytes(null));
+    await svg.cache.putIfAbsent(
+      loader.cacheKey(null),
+      () => loader.loadBytes(null),
+    );
   }
 
   /// **Important:** This method must be called before [createIcon] if the widget
@@ -143,14 +146,21 @@ class HybridMapMarkerImpl implements HybridMapMarker {
   /// );
   /// ```
   @override
-  Future<BitmapDescriptor> createIcon(Widget widget, {required Size size, double quality = 1.0}) async {
+  Future<BitmapDescriptor> createIcon(
+    Widget widget, {
+    required Size size,
+    double quality = 1.0,
+  }) async {
     final view = ui.PlatformDispatcher.instance.views.first;
     final RenderRepaintBoundary repaintBoundary = RenderRepaintBoundary();
     final devicePixelRatio = view.devicePixelRatio * quality;
 
     final RenderView renderView = RenderView(
       view: view,
-      child: RenderPositionedBox(alignment: Alignment.center, child: repaintBoundary),
+      child: RenderPositionedBox(
+        alignment: Alignment.center,
+        child: repaintBoundary,
+      ),
       configuration: ViewConfiguration(
         logicalConstraints: BoxConstraints.tight(size),
         devicePixelRatio: devicePixelRatio,
@@ -163,10 +173,14 @@ class HybridMapMarkerImpl implements HybridMapMarker {
     pipelineOwner.rootNode = renderView;
     renderView.prepareInitialFrame();
 
-    final RenderObjectToWidgetElement<RenderBox> rootElement = RenderObjectToWidgetAdapter<RenderBox>(
-      container: repaintBoundary,
-      child: Directionality(textDirection: TextDirection.ltr, child: widget),
-    ).attachToRenderTree(buildOwner);
+    final RenderObjectToWidgetElement<RenderBox> rootElement =
+        RenderObjectToWidgetAdapter<RenderBox>(
+          container: repaintBoundary,
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: widget,
+          ),
+        ).attachToRenderTree(buildOwner);
 
     buildOwner.buildScope(rootElement);
     buildOwner.finalizeTree();
@@ -175,10 +189,20 @@ class HybridMapMarkerImpl implements HybridMapMarker {
     pipelineOwner.flushCompositingBits();
     pipelineOwner.flushPaint();
 
-    final ui.Image image = await repaintBoundary.toImage(pixelRatio: devicePixelRatio);
-    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final ui.Image image = await repaintBoundary.toImage(
+      pixelRatio: devicePixelRatio,
+    );
+    final ByteData? byteData = await image.toByteData(
+      format: ui.ImageByteFormat.png,
+    );
 
-    final Uint8List uint8List = byteData?.buffer.asUint8List() ?? Uint8List.fromList([]);
-    return BitmapDescriptor.bytes(uint8List, imagePixelRatio: devicePixelRatio, height: size.height, width: size.width);
+    final Uint8List uint8List =
+        byteData?.buffer.asUint8List() ?? Uint8List.fromList([]);
+    return BitmapDescriptor.bytes(
+      uint8List,
+      imagePixelRatio: devicePixelRatio,
+      height: size.height,
+      width: size.width,
+    );
   }
 }

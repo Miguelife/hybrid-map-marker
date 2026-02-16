@@ -126,9 +126,18 @@ class _MainAppState extends State<MainApp> {
       size: size,
     );
     final svgIcon = await _hybridMapMarker.createIcon(_svgMarker(), size: size);
-    final jpgIcon = await _hybridMapMarker.createIcon(_jpgImageMarker(), size: size);
-    final pngIcon = await _hybridMapMarker.createIcon(_pngImageMarker(), size: size);
-    final networkIcon = await _hybridMapMarker.createIcon(_networkImageMarker(), size: size);
+    final jpgIcon = await _hybridMapMarker.createIcon(
+      _jpgImageMarker(),
+      size: size,
+    );
+    final pngIcon = await _hybridMapMarker.createIcon(
+      _pngImageMarker(),
+      size: size,
+    );
+    final networkIcon = await _hybridMapMarker.createIcon(
+      _networkImageMarker(),
+      size: size,
+    );
 
     return {
       Marker(

@@ -107,5 +107,9 @@ abstract interface class HybridMapMarker {
   ///   quality: 2.0,
   /// );
   /// ```
-  Future<BitmapDescriptor> createIcon(Widget widget, {required Size size, double quality = 1.0});
+  Future<BitmapDescriptor> createIcon(
+    Widget widget, {
+    required Size size,
+    double quality = 1.0,
+  });
 }

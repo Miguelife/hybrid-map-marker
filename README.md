@@ -2,19 +2,19 @@
 
 ![Banner](https://raw.githubusercontent.com/rudoapps/hybrid-hub-vault/main/flutter/images/hybrid-map-marker/banner.png)
 
-A Flutter package that allows you to create custom map markers from any Flutter widget for use with Google Maps. Convert your custom widgets, including SVG images, icons, and complex layouts, into bitmap markers.
+A Flutter package that allows you to create custom map markers from any Flutter widget for use with Google Maps. Convert your custom widgets and complex layouts, into bitmap markers.
 
 ## Features
 
 - ✨ **Convert any Flutter widget** into a Google Maps marker
 - 🎨 **Full customization** - Use any widget, including containers, icons, images, and SVG
-- 🚀 **SVG support** with built-in caching for optimal performance
+- 🚀 **Built-in asset caching** for optimal performance
 - 📐 **Adjustable quality** - Control the resolution of generated markers
 - 🎯 **Simple API** - Singleton pattern for easy access throughout your app
 
 ## Screenshot
 
-<img src="https://raw.githubusercontent.com/rudoapps/hybrid-hub-vault/main/flutter/images/hybrid-map-marker/simulator_screenshot_0C72C0D1-D1F5-4A51-BBC1-3BF25EA64024.png" width="300" alt="Example Screenshot" />
+<img src="" width="300" alt="Example Screenshot" />
 
 ## Getting started
 
@@ -164,8 +164,14 @@ class _MapScreenState extends State<MapScreen> {
   final _hybridMapMarker = HybridMapMarker.instance;
 
   Future<Set<Marker>> _createMarkers() async {
-    // Cache SVG assets first
-    await _hybridMapMarker.cacheSvg(path: 'assets/user.svg');
+    // Cache all assets first
+    await Future.wait([
+      _hybridMapMarker.cacheSvg(path: 'assets/user.svg'),
+      _hybridMapMarker.cacheImage(path: 'assets/bird.png'),
+      _hybridMapMarker.cacheNetworkImage(
+        path: 'https://example.com/avatar.png',
+      ),
+    ]);
 
     final size = Size(64, 64);
 
@@ -195,6 +201,26 @@ class _MapScreenState extends State<MapScreen> {
       size: size,
     );
 
+    // Create asset image marker
+    final assetImageMarker = await _hybridMapMarker.createIcon(
+      Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(shape: BoxShape.circle),
+        child: Image.asset('assets/bird.png', fit: BoxFit.cover),
+      ),
+      size: size,
+    );
+
+    // Create network image marker
+    final networkImageMarker = await _hybridMapMarker.createIcon(
+      Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(shape: BoxShape.circle),
+        child: Image.network('https://example.com/avatar.png', fit: BoxFit.cover),
+      ),
+      size: size,
+    );
+
     return {
       Marker(
         markerId: MarkerId('icon-marker'),
@@ -205,6 +231,16 @@ class _MapScreenState extends State<MapScreen> {
         markerId: MarkerId('svg-marker'),
         position: LatLng(39.4822, -0.3568),
         icon: svgMarker,
+      ),
+      Marker(
+        markerId: MarkerId('asset-image-marker'),
+        position: LatLng(39.4800, -0.3557),
+        icon: assetImageMarker,
+      ),
+      Marker(
+        markerId: MarkerId('network-image-marker'),
+        position: LatLng(39.4814, -0.3557),
+        icon: networkImageMarker,
       ),
     };
   }

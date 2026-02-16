@@ -46,25 +46,32 @@ class _MainAppState extends State<MainApp> {
     );
   }
 
-  Widget _locationMarker() {
+  Widget _circleMarker({required Widget child}) {
     return Container(
-      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.amber,
-        shape: .circle,
+        shape: BoxShape.circle,
       ),
-      child: Icon(Icons.location_on_outlined, color: Colors.white),
+      child: Container(
+        clipBehavior: .antiAlias,
+        width: 64,
+        height: 64,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        child: child,
+      ),
+    );
+  }
+
+  Widget _locationMarker() {
+    return _circleMarker(
+      child: Icon(Icons.location_on_outlined, color: Colors.white, size: 38),
     );
   }
 
   Widget _svgMarker() {
-    return Container(
-      margin: const EdgeInsets.all(2),
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        shape: .circle,
-      ),
+    return _circleMarker(
       child: SvgPicture.asset(
         'assets/user.svg',
         colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
@@ -73,73 +80,28 @@ class _MainAppState extends State<MainApp> {
   }
 
   Widget _jpgImageMarker() {
-    return Container(
-      margin: const EdgeInsets.all(2),
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        shape: .circle,
-      ),
-      child: Container(
-        width: 64,
-        height: 64,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          shape: .circle,
-        ),
-        child: Image.asset(
-          'assets/bird.jpg',
-          fit: BoxFit.cover,
-        ),
+    return _circleMarker(
+      child: Image.asset(
+        'assets/bird.jpg',
+        fit: BoxFit.cover,
       ),
     );
   }
 
   Widget _pngImageMarker() {
-    return Container(
-      margin: const EdgeInsets.all(2),
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        shape: .circle,
-      ),
-      child: Container(
-        width: 64,
-        height: 64,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          shape: .circle,
-        ),
-        child: Image.asset(
-          'assets/bird.png',
-          fit: BoxFit.cover,
-        ),
+    return _circleMarker(
+      child: Image.asset(
+        'assets/bird.png',
+        fit: BoxFit.cover,
       ),
     );
   }
 
   Widget _networkImageMarker() {
-    return Container(
-      margin: const EdgeInsets.all(2),
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.amber,
-        shape: .circle,
-      ),
-      child: Container(
-        width: 64,
-        height: 64,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          shape: .circle,
-        ),
-        child: Image.network(
-          'https://docs.flutter.dev/assets/images/dash/Dash.png',
-          fit: BoxFit.cover,
-        ),
+    return _circleMarker(
+      child: Image.network(
+        'https://docs.flutter.dev/assets/images/dash/Dash.png',
+        fit: BoxFit.cover,
       ),
     );
   }
@@ -170,26 +132,31 @@ class _MainAppState extends State<MainApp> {
 
     return {
       Marker(
+        infoWindow: InfoWindow(title: 'Location Marker'),
         markerId: MarkerId('location'),
         position: const LatLng(39.481785683754346, -0.35585001671455546),
         icon: locationIcon,
       ),
       Marker(
+        infoWindow: InfoWindow(title: 'SVG Marker'),
         markerId: MarkerId('svg'),
         position: const LatLng(39.482232741106344, -0.3567805203800181),
         icon: svgIcon,
       ),
       Marker(
+        infoWindow: InfoWindow(title: 'JPG Marker'),
         markerId: MarkerId('jpg'),
         position: const LatLng(39.479932432434474, -0.3556799773645045),
         icon: jpgIcon,
       ),
       Marker(
+        infoWindow: InfoWindow(title: 'PNG Marker'),
         markerId: MarkerId('png'),
         position: const LatLng(39.48056070220794, -0.35663411718664756),
         icon: pngIcon,
       ),
       Marker(
+        infoWindow: InfoWindow(title: 'Network Marker'),
         markerId: MarkerId('network'),
         position: const LatLng(39.481361447965654, -0.3557271053898057),
         icon: networkIcon,

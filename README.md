@@ -14,7 +14,7 @@ A Flutter package that allows you to create custom map markers from any Flutter 
 
 ## Screenshot
 
-<img src="" width="300" alt="Example Screenshot" />
+<img src="https://raw.githubusercontent.com/rudoapps/hybrid-hub-vault/refs/heads/main/flutter/images/hybrid-map-marker/simulator_screenshot_8276D0B8-EF7D-4110-918F-7A15132596CD.png" width="300" alt="Example Screenshot" />
 
 ## Getting started
 

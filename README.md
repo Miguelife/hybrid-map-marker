@@ -101,6 +101,43 @@ final svgMarker = await HybridMapMarker.instance.createIcon(
 
 > **Important:** If you don't call `cacheSvg()` before creating an icon with SVG content, the SVG may not render correctly in the marker.
 
+### Using Asset Images
+
+When using asset images in your markers, you **must** cache them first:
+
+```dart
+// 1. Cache the image before creating the icon
+await HybridMapMarker.instance.cacheImage(path: 'assets/marker.png');
+
+// 2. Create the marker with the image
+final imageMarker = await HybridMapMarker.instance.createIcon(
+  Image.asset('assets/marker.png'),
+  size: Size(48, 48),
+);
+```
+
+> **Important:** If you don't cache images before creating an icon, they may not render correctly in the marker.
+
+
+### Using Network Images
+
+When using network images in your markers, you **must** cache them first:
+
+```dart
+// 1. Cache the network image before creating the icon
+await HybridMapMarker.instance.cacheNetworkImage(
+  path: 'https://example.com/marker.png',
+);
+
+// 2. Create the marker with the network image
+final networkMarker = await HybridMapMarker.instance.createIcon(
+  Image.network('https://example.com/marker.png'),
+  size: Size(48, 48),
+);
+```
+
+> **Important:** If you don't cache images before creating an icon, they may not render correctly in the marker.
+
 ### Advanced Usage
 
 #### Adjusting Quality
@@ -213,6 +250,24 @@ Preloads and caches an SVG asset. Must be called before `createIcon()` if the wi
 
 **Parameters:**
 - `path` - The asset path to the SVG file (e.g., 'assets/marker.svg')
+
+**Returns:** `Future<void>`
+
+### `cacheImage({required String path})`
+
+Preloads and caches an asset image. Must be called before `createIcon()` if the widget contains asset images.
+
+**Parameters:**
+- `path` - The asset path to the image file (e.g., 'assets/marker.png')
+
+**Returns:** `Future<void>`
+
+### `cacheNetworkImage({required String path})`
+
+Preloads and caches a network image. Must be called before `createIcon()` if the widget contains network images.
+
+**Parameters:**
+- `path` - The URL of the network image (e.g., 'https://example.com/marker.png')
 
 **Returns:** `Future<void>`
 
